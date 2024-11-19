@@ -1,0 +1,497 @@
+[
+    {
+        "question": "¿Cuál es el propósito del módulo `subprocess` en Python?",
+        "type": "multiple-choice",
+        "options": [
+            "Crear interfaces gráficas de usuario.",
+            "Administrar procesos y ejecutar nuevos programas.",
+            "Manejar conexiones de red.",
+            "Realizar operaciones matemáticas complejas."
+        ],
+        "answer": 1,
+        "explanation": "El módulo `subprocess` permite ejecutar nuevos programas y administrar procesos."
+    },
+    {
+        "question": "En el código `p = subprocess.Popen(['ping', 'www.example.com'])`, ¿qué hace `Popen`?",
+        "type": "multiple-choice",
+        "options": [
+            "Ejecuta un comando en una nueva ventana.",
+            "Abre un archivo.",
+            "Inicia un proceso que ejecuta el comando dado.",
+            "Finaliza un proceso existente."
+        ],
+        "answer": 2,
+        "explanation": "`Popen` inicia un nuevo proceso que ejecuta el comando especificado."
+    },
+    {
+        "question": "¿Qué método se utiliza para esperar a que un proceso hijo termine en Python?",
+        "type": "multiple-choice",
+        "options": [
+            "`wait()`",
+            "`join()`",
+            "`terminate()`",
+            "`communicate()`"
+        ],
+        "answer": 0,
+        "explanation": "El método `wait()` espera a que el proceso hijo termine su ejecución."
+    },
+    {
+        "question": "¿Qué módulo se utiliza para crear sockets en Python?",
+        "type": "multiple-choice",
+        "options": [
+            "`socketserver`",
+            "`socket`",
+            "`sockets`",
+            "`network`"
+        ],
+        "answer": 1,
+        "explanation": "El módulo `socket` se utiliza para crear y manejar sockets en Python."
+    },
+    {
+        "question": "En el contexto de sockets, ¿qué significa `AF_INET`?",
+        "type": "multiple-choice",
+        "options": [
+            "Protocolo de IPv6.",
+            "Familia de direcciones para IPv4.",
+            "Tipo de socket para conexiones locales.",
+            "Protocolo de transmisión de archivos."
+        ],
+        "answer": 1,
+        "explanation": "`AF_INET` es la familia de direcciones para IPv4."
+    },
+    {
+        "question": "¿Para qué se utiliza la función `bind()` en sockets?",
+        "type": "multiple-choice",
+        "options": [
+            "Conectar el socket a una dirección remota.",
+            "Enviar datos a través del socket.",
+            "Asociar el socket a una dirección local y puerto.",
+            "Escuchar conexiones entrantes."
+        ],
+        "answer": 2,
+        "explanation": "`bind()` asocia el socket a una dirección local y puerto específicos."
+    },
+    {
+        "question": "En programación concurrente, ¿qué es un 'lock' o bloqueo?",
+        "type": "multiple-choice",
+        "options": [
+            "Un error de ejecución.",
+            "Un mecanismo para sincronizar el acceso a recursos compartidos.",
+            "Una función para acelerar procesos.",
+            "Una técnica para evitar el uso de memoria compartida."
+        ],
+        "answer": 1,
+        "explanation": "Un 'lock' es un mecanismo que sincroniza el acceso a recursos compartidos entre hilos."
+    },
+    {
+        "question": "¿Cuál es la diferencia principal entre hilos ('threads') y procesos ('processes')?",
+        "type": "multiple-choice",
+        "options": [
+            "Los hilos comparten memoria; los procesos tienen espacios de memoria separados.",
+            "Los procesos son más ligeros que los hilos.",
+            "No hay diferencia entre ellos.",
+            "Los hilos solo se usan en sistemas UNIX."
+        ],
+        "answer": 0,
+        "explanation": "Los hilos comparten el mismo espacio de memoria, mientras que los procesos tienen espacios separados."
+    },
+    {
+        "question": "¿Qué método se utiliza para iniciar un hilo en Python?",
+        "type": "multiple-choice",
+        "options": [
+            "`run()`",
+            "`start()`",
+            "`init()`",
+            "`execute()`"
+        ],
+        "answer": 1,
+        "explanation": "El método `start()` inicia la ejecución del hilo."
+    },
+    {
+        "question": "En el código `t = threading.Thread(target=func)`, ¿qué hace `target=func`?",
+        "type": "multiple-choice",
+        "options": [
+            "Establece el nombre del hilo.",
+            "Asigna la función que ejecutará el hilo.",
+            "Inicia el hilo automáticamente.",
+            "Define los argumentos del hilo."
+        ],
+        "answer": 1,
+        "explanation": "`target=func` asigna la función `func` como la tarea que ejecutará el hilo."
+    },
+    {
+        "question": "En Python, el módulo utilizado para crear hilos es `__________`.",
+        "type": "fill-in-the-blank",
+        "answer": "threading",
+        "explanation": "El módulo `threading` se utiliza para trabajar con hilos en Python."
+    },
+    {
+        "question": "El método `__________` se utiliza para esperar a que un hilo termine su ejecución.",
+        "type": "fill-in-the-blank",
+        "answer": "join()",
+        "explanation": "`join()` hace que el hilo principal espere a que el hilo especificado termine."
+    },
+    {
+        "question": "Para crear un socket TCP en Python, se utiliza `socket.socket(socket.AF_INET, socket.__________)`.",
+        "type": "fill-in-the-blank",
+        "answer": "SOCK_STREAM",
+        "explanation": "`SOCK_STREAM` indica que el socket es de tipo TCP."
+    },
+    {
+        "question": "La función `__________` se utiliza para aceptar conexiones entrantes en un socket servidor.",
+        "type": "fill-in-the-blank",
+        "answer": "accept()",
+        "explanation": "`accept()` espera y acepta una conexión entrante."
+    },
+    {
+        "question": "El módulo `__________` en Python permite ejecutar comandos del sistema y crear nuevos procesos.",
+        "type": "fill-in-the-blank",
+        "answer": "subprocess",
+        "explanation": "El módulo `subprocess` permite la creación y gestión de nuevos procesos."
+    },
+    {
+        "question": "¿Cuál de los siguientes códigos es correcto para crear un proceso en Python que ejecute `notepad.exe`?",
+        "type": "code",
+        "code": "",
+        "options": [
+            "subprocess.run(['notepad.exe'])",
+            "subprocess.execute('notepad.exe')",
+            "os.system('notepad.exe')",
+            "threading.Thread(target='notepad.exe').start()"
+        ],
+        "answer": 0,
+        "explanation": "`subprocess.run(['notepad.exe'])` es la forma correcta de ejecutar `notepad.exe`."
+    },
+    {
+        "question": "En el siguiente código, ¿cuál es el resultado?",
+        "type": "code",
+        "code": "import threading\n\ndef tarea():\n    print('Hola')\n\nt = threading.Thread(target=tarea)\nt.start()",
+        "options": [
+            "Imprime 'Hola' en un hilo separado.",
+            "No hace nada.",
+            "Genera un error.",
+            "Imprime 'Hola' en el hilo principal."
+        ],
+        "answer": 0,
+        "explanation": "El código crea un hilo que imprime 'Hola'."
+    },
+    {
+        "question": "¿Qué hace el siguiente código?",
+        "type": "code",
+        "code": "with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:\n    s.connect(('localhost', 2000))\n    s.sendall(b'Hola')",
+        "options": [
+            "Crea un socket UDP y envía 'Hola'.",
+            "Crea un socket TCP y envía 'Hola' al puerto 2000.",
+            "Crea un servidor que escucha en el puerto 2000.",
+            "Lee datos del puerto 2000."
+        ],
+        "answer": 1,
+        "explanation": "El código crea un socket TCP cliente y envía datos al servidor en el puerto 2000."
+    },
+    {
+        "question": "¿Cuál es el propósito de `os.fork()` en sistemas UNIX?",
+        "type": "multiple-choice",
+        "options": [
+            "Crear un nuevo proceso hijo.",
+            "Terminar un proceso existente.",
+            "Pausar la ejecución de un proceso.",
+            "Crear un nuevo hilo."
+        ],
+        "answer": 0,
+        "explanation": "`os.fork()` crea un nuevo proceso hijo duplicando el proceso padre."
+    },
+    {
+        "question": "En el siguiente código, ¿qué imprime?",
+        "type": "code",
+        "code": "import threading\n\ndef mostrar():\n    print(threading.current_thread().name)\n\nt = threading.Thread(target=mostrar, name='MiHilo')\nt.start()",
+        "options": [
+            "`MainThread`",
+            "`MiHilo`",
+            "Un identificador numérico del hilo.",
+            "Genera un error."
+        ],
+        "answer": 1,
+        "explanation": "El hilo imprimirá su nombre, que es 'MiHilo'."
+    },
+    {
+        "question": "Completa el código para crear un hilo que ejecute la función `mi_funcion`:",
+        "type": "fill-in-the-blank",
+        "code": "import threading\n\ndef mi_funcion():\n    pass\n\nt = threading.Thread(______________)\nt.start()",
+        "answer": "target=mi_funcion",
+        "explanation": "Se debe especificar la función a ejecutar usando `target=mi_funcion`."
+    },
+    {
+        "question": "En el contexto de un lock, completa el código para adquirir y liberar el lock:",
+        "type": "fill-in-the-blank",
+        "code": "lock = threading.Lock()\nlock.acquire()\ntry:\n    # Operaciones seguras\n    pass\nfinally:\n    __________",
+        "answer": "lock.release()",
+        "explanation": "Siempre se debe liberar el lock con `lock.release()` en el bloque `finally`."
+    },
+    {
+        "question": "Completa el código para crear un socket servidor que escuche conexiones entrantes:",
+        "type": "fill-in-the-blank",
+        "code": "import socket\n\ns = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\ns.bind(('localhost', 2000))\n__________",
+        "answer": "s.listen()",
+        "explanation": "`s.listen()` pone el socket en modo de escucha."
+    },
+    {
+        "question": "Completa el código para enviar datos a través de un socket:",
+        "type": "fill-in-the-blank",
+        "code": "s.sendall(__________)",
+        "answer": "b'Datos a enviar'",
+        "explanation": "Se envían datos binarios, por lo que se usa una cadena de bytes."
+    },
+    {
+        "question": "Completa el código para leer datos de un socket:",
+        "type": "fill-in-the-blank",
+        "code": "data = s.recv(__________)",
+        "answer": "1024",
+        "explanation": "`recv(1024)` lee hasta 1024 bytes de datos del socket."
+    },
+    {
+        "question": "¿Qué hace el método `Popen.communicate()` en el módulo `subprocess`?",
+        "type": "multiple-choice",
+        "options": [
+            "Enviar datos al proceso y leer su salida.",
+            "Terminar el proceso.",
+            "Pausar el proceso.",
+            "Reiniciar el proceso."
+        ],
+        "answer": 0,
+        "explanation": "`communicate()` interactúa con el proceso: envía datos y lee su salida."
+    },
+    {
+        "question": "¿Cuál es la diferencia entre `threading.Lock()` y `threading.RLock()`?",
+        "type": "multiple-choice",
+        "options": [
+            "`Lock` permite múltiples adquisiciones en el mismo hilo; `RLock` no.",
+            "`RLock` permite múltiples adquisiciones en el mismo hilo; `Lock` no.",
+            "No hay diferencia entre ellos.",
+            "`RLock` es más eficiente que `Lock`."
+        ],
+        "answer": 1,
+        "explanation": "`RLock` es un lock reentrante que permite que el mismo hilo lo adquiera múltiples veces."
+    },
+    {
+        "question": "En programación de sockets, ¿qué método se utiliza para convertir un nombre de host en una dirección IP?",
+        "type": "multiple-choice",
+        "options": [
+            "`socket.gethostname()`",
+            "`socket.gethostbyname()`",
+            "`socket.getaddrinfo()`",
+            "`socket.gethostbyaddr()`"
+        ],
+        "answer": 1,
+        "explanation": "`socket.gethostbyname()` resuelve un nombre de host a una dirección IP."
+    },
+    {
+        "question": "¿Para qué se utiliza el método `starttls()` en el módulo `smtplib`?",
+        "type": "multiple-choice",
+        "options": [
+            "Enviar correos electrónicos.",
+            "Iniciar una conexión segura TLS.",
+            "Finalizar una conexión SMTP.",
+            "Autenticar al usuario."
+        ],
+        "answer": 1,
+        "explanation": "`starttls()` inicia una conexión segura usando TLS."
+    },
+    {
+        "question": "En el módulo `multiprocessing`, ¿qué hace la clase `Queue`?",
+        "type": "multiple-choice",
+        "options": [
+            "Sincroniza hilos.",
+            "Permite la comunicación entre procesos.",
+            "Crea un nuevo proceso.",
+            "Maneja excepciones entre procesos."
+        ],
+        "answer": 1,
+        "explanation": "`multiprocessing.Queue` permite compartir datos entre procesos."
+    },
+    {
+        "question": "En el siguiente código, ¿qué imprime?",
+        "type": "code",
+        "code": "import threading\n\nx = 0\n\ndef incrementar():\n    global x\n    x += 1\n\nthreads = []\nfor _ in range(100):\n    t = threading.Thread(target=incrementar)\n    threads.append(t)\n    t.start()\n\nfor t in threads:\n    t.join()\n\nprint(x)",
+        "options": [
+            "0",
+            "100",
+            "Un número entre 1 y 100",
+            "1"
+        ],
+        "answer": 2,
+        "explanation": "Debido a condiciones de carrera, el valor final de `x` puede ser inconsistente."
+    },
+    {
+        "question": "¿Qué hace el método `socket.listen()` en un socket servidor?",
+        "type": "multiple-choice",
+        "options": [
+            "Acepta conexiones entrantes.",
+            "Espera datos del cliente.",
+            "Coloca el socket en modo de escucha para aceptar conexiones.",
+            "Cierra el socket."
+        ],
+        "answer": 2,
+        "explanation": "`listen()` permite que el socket acepte conexiones entrantes."
+    },
+    {
+        "question": "En el contexto de hilos, ¿qué es una condición de carrera ('race condition')?",
+        "type": "multiple-choice",
+        "options": [
+            "Una situación donde varios hilos compiten por recursos y el resultado depende del orden de ejecución.",
+            "Un método para acelerar hilos.",
+            "Un error que impide la creación de hilos.",
+            "Una técnica para sincronizar hilos."
+        ],
+        "answer": 0,
+        "explanation": "Una condición de carrera ocurre cuando el resultado depende del orden de ejecución de los hilos."
+    },
+    {
+        "question": "¿Cuál es el resultado de ejecutar `os.system('dir')` en Windows?",
+        "type": "multiple-choice",
+        "options": [
+            "Muestra el directorio actual en la consola.",
+            "Cambia al directorio raíz.",
+            "Abre una nueva ventana de terminal.",
+            "No hace nada."
+        ],
+        "answer": 0,
+        "explanation": "`os.system('dir')` ejecuta el comando `dir`, mostrando el contenido del directorio actual."
+    },
+    {
+        "question": "En el módulo `asyncio`, ¿qué es una 'corutina'?",
+        "type": "multiple-choice",
+        "options": [
+            "Una función que puede pausar y reanudar su ejecución.",
+            "Un tipo de hilo especial.",
+            "Un proceso del sistema operativo.",
+            "Una excepción en programación asíncrona."
+        ],
+        "answer": 0,
+        "explanation": "Una corutina es una función asíncrona que puede esperar (`await`) y ceder el control."
+    },
+    {
+        "question": "Para crear un servidor UDP en Python, se utiliza `socket.SOCK_________`.",
+        "type": "fill-in-the-blank",
+        "answer": "DGRAM",
+        "explanation": "`SOCK_DGRAM` indica que el socket es de tipo UDP."
+    },
+    {
+        "question": "El método `__________` se utiliza para cerrar un socket en Python.",
+        "type": "fill-in-the-blank",
+        "answer": "close()",
+        "explanation": "`close()` libera los recursos asociados al socket."
+    },
+    {
+        "question": "En programación de hilos, un `__________` es una señal utilizada para notificar a los hilos de algún evento.",
+        "type": "fill-in-the-blank",
+        "answer": "Event",
+        "explanation": "`Event` es una clase que permite la comunicación entre hilos mediante señales."
+    },
+    {
+        "question": "El método `subprocess.Popen` devuelve un objeto que representa el __________ creado.",
+        "type": "fill-in-the-blank",
+        "answer": "proceso",
+        "explanation": "`Popen` devuelve un objeto que permite interactuar con el proceso creado."
+    },
+    {
+        "question": "En Python, los hilos creados con `threading.Thread` son de tipo __________.",
+        "type": "fill-in-the-blank",
+        "answer": "hilos de nivel de usuario",
+        "explanation": "Son hilos manejados por el intérprete de Python, también conocidos como hilos de nivel de usuario."
+    },
+    {
+        "question": "¿Qué es un 'deadlock' en programación concurrente?",
+        "type": "multiple-choice",
+        "options": [
+            "Un estado donde los hilos progresan indefinidamente.",
+            "Una situación donde dos o más hilos están bloqueados esperando recursos que otros hilos tienen.",
+            "Un tipo de excepción.",
+            "Un método para mejorar el rendimiento."
+        ],
+        "answer": 1,
+        "explanation": "Un deadlock ocurre cuando hilos esperan indefinidamente por recursos bloqueados por otros."
+    },
+    {
+        "question": "¿Cuál es la función de `socket.gethostbyaddr()` en Python?",
+        "type": "multiple-choice",
+        "options": [
+            "Devuelve el nombre de host dado una dirección IP.",
+            "Convierte un nombre de host en una dirección IP.",
+            "Devuelve información sobre el protocolo.",
+            "No es una función válida."
+        ],
+        "answer": 0,
+        "explanation": "`gethostbyaddr()` resuelve una dirección IP a un nombre de host."
+    },
+    {
+        "question": "En el contexto de programación de sockets, ¿qué significa 'listening'?",
+        "type": "multiple-choice",
+        "options": [
+            "Enviar datos.",
+            "Esperar conexiones entrantes.",
+            "Cerrar el socket.",
+            "Conectarse a un servidor."
+        ],
+        "answer": 1,
+        "explanation": "Estar en modo 'listening' significa que el socket espera conexiones entrantes."
+    },
+    {
+        "question": "¿Para qué se utiliza el método `terminate()` en el módulo `multiprocessing`?",
+        "type": "multiple-choice",
+        "options": [
+            "Iniciar un nuevo proceso.",
+            "Esperar a que un proceso termine.",
+            "Finalizar un proceso.",
+            "Reiniciar un proceso."
+        ],
+        "answer": 2,
+        "explanation": "`terminate()` finaliza un proceso de forma abrupta."
+    },
+    {
+        "question": "En programación concurrente, ¿qué es un 'semaforo'?",
+        "type": "multiple-choice",
+        "options": [
+            "Un contador que controla el acceso a uno o más recursos.",
+            "Una función para pausar hilos.",
+            "Un tipo de excepción.",
+            "Un hilo especial."
+        ],
+        "answer": 0,
+        "explanation": "Un semáforo es un mecanismo de sincronización que controla el acceso a recursos compartidos."
+    },
+    {
+        "question": "Completa el código para utilizar un semáforo en hilos:",
+        "type": "fill-in-the-blank",
+        "code": "semaphore = threading.Semaphore(5)\n\ndef tarea():\n    __________\n    # Operaciones\n    semaphore.release()",
+        "answer": "semaphore.acquire()",
+        "explanation": "Se adquiere el semáforo con `acquire()` antes de realizar operaciones."
+    },
+    {
+        "question": "Completa el código para manejar excepciones en procesos:",
+        "type": "fill-in-the-blank",
+        "code": "try:\n    process = subprocess.Popen(['comando'], __________)\nexcept subprocess.CalledProcessError as e:\n    print(e.output)",
+        "answer": "stdout=subprocess.PIPE, stderr=subprocess.PIPE",
+        "explanation": "Se redirige la salida estándar y de error para capturar cualquier mensaje."
+    },
+    {
+        "question": "Completa el código para iniciar una conexión SSL en un socket:",
+        "type": "fill-in-the-blank",
+        "code": "import ssl\ncontext = ssl.create_default_context()\nwith socket.create_connection((host, port)) as sock:\n    with context.wrap_socket(sock, __________) as ssock:\n        pass",
+        "answer": "server_hostname=host",
+        "explanation": "Se especifica el nombre del host del servidor para la verificación SSL."
+    },
+    {
+        "question": "Completa el código para crear un proceso en el módulo `multiprocessing`:",
+        "type": "fill-in-the-blank",
+        "code": "from multiprocessing import Process\n\ndef funcion_proceso():\n    pass\n\nif __name__ == '__main__':\n    p = Process(__________)\n    p.start()",
+        "answer": "target=funcion_proceso",
+        "explanation": "Se define la función que el proceso ejecutará usando `target=funcion_proceso`."
+    },
+    {
+        "question": "Completa el código para usar un `Event` en hilos:",
+        "type": "fill-in-the-blank",
+        "code": "event = threading.Event()\n\ndef esperar_evento():\n    event.wait()\n    # Continuar ejecución\n\ndef set_evento():\n    __________",
+        "answer": "event.set()",
+        "explanation": "`event.set()` activa el evento, permitiendo que los hilos que esperan continúen."
+    }
+]

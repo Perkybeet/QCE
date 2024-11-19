@@ -4,273 +4,361 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cuestionario de Kotlin Avanzado</title>
+    <!-- Integración de Highlight.js para resaltar código -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
     <style>
-        /* Estilos Generales */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+        /* Reset de estilos básicos */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Tipografía y colores */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #f0f4f8, #d9e2ec);
             overflow-x: hidden;
         }
-        .container {
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
+
+        /* Animaciones personalizadas */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        /* Panel de Configuración Inicial */
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .animate-slideDown {
+            animation: slideDown 0.5s ease-in-out;
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+        .animate-slideInLeft {
+            animation: slideInLeft 0.5s ease-in-out;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        .animate-slideInRight {
+            animation: slideInRight 0.5s ease-in-out;
+        }
+
+        /* Configuración Inicial */
         #configPanel {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.8);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
             animation: fadeIn 0.5s ease-in-out;
         }
-        #configPanel .config-box {
+
+        #configForm {
             background: #ffffff;
             padding: 30px;
             border-radius: 10px;
             width: 90%;
             max-width: 500px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            animation: slideDown 0.5s ease-out;
-            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            animation: slideDown 0.5s ease-in-out;
         }
-        #configPanel h2 {
+
+        #configForm h2 {
             margin-bottom: 20px;
             color: #333333;
         }
-        #configPanel label {
+
+        /* Estilos de los inputs */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
             display: block;
-            margin-bottom: 15px;
-            font-size: 1.1em;
+            margin-bottom: 8px;
+            font-weight: bold;
             color: #555555;
-            text-align: left;
         }
-        #configPanel input[type="radio"] {
+
+        .form-group input[type="radio"],
+        .form-group input[type="checkbox"] {
             margin-right: 10px;
+            transform: scale(1.2);
+            cursor: pointer;
         }
-        #startQuizBtn {
-            display: block;
+
+        .form-group select,
+        .form-group input[type="file"] {
             width: 100%;
-            padding: 15px;
+            padding: 10px;
+            border: 2px solid #cccccc;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .form-group p {
+            font-weight: bold;
+            color: #333333;
+        }
+
+        /* Botón de inicio */
+        #startQuizBtn {
+            width: 100%;
+            padding: 12px;
             background: #28a745;
-            color: #fff;
+            color: #ffffff;
             border: none;
+            border-radius: 5px;
             font-size: 18px;
             cursor: pointer;
-            border-radius: 5px;
-            transition: background 0.3s, transform 0.3s;
-            margin-top: 20px;
+            transition: background 0.3s ease;
         }
+
         #startQuizBtn:hover {
             background: #218838;
-            transform: scale(1.05);
         }
+
+        /* Contenedor principal */
+        .container {
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
         /* Panel de Navegación */
         #navPanel {
-            width: 200px;
-            flex-shrink: 0;
+            width: 220px;
+            background: #ffffff;
+            border-right: 1px solid #dddddd;
             padding: 20px;
-            border-right: 2px solid #dedede;
-            background: #f8f9fa;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
             overflow-y: auto;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-            animation: fadeInLeft 1s ease-in-out;
-            z-index: 1;
+            animation: slideInLeft 0.5s ease-in-out;
         }
+
         #navPanel h3 {
             text-align: center;
             margin-bottom: 20px;
             color: #333333;
         }
+
         .nav-buttons {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
             gap: 10px;
-            justify-content: center;
         }
+
         .nav-button {
             width: 40px;
             height: 40px;
-            background: #f1f1f1;
-            border: 2px solid #dedede;
-            border-radius: 5px;
+            background: #f8f9fa;
+            border: 2px solid #cccccc;
+            border-radius: 50%;
             cursor: pointer;
-            position: relative;
-            transition: background 0.3s, border-color 0.3s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            transition: background 0.3s ease, border-color 0.3s ease;
+            font-weight: bold;
+            color: #333333;
         }
+
         .nav-button:hover {
-            background: #e6ffe6;
-            border-color: #28a745;
+            background: #e2e6ea;
         }
+
         .nav-button.active {
             background: #28a745;
-            color: #fff;
             border-color: #28a745;
+            color: #ffffff;
         }
-        .nav-button.marked::after {
-            content: '📌';
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            font-size: 14px;
-        }
+
         /* Contenido del Cuestionario */
         #quizContent {
-            margin-left: 220px;
-            padding: 20px;
-            width: calc(100% - 220px);
-            height: 90vh;
+            flex: 1;
+            padding: 30px;
             overflow-y: auto;
-            animation: fadeIn 1s ease-in-out;
             position: relative;
+            animation: slideInRight 0.5s ease-in-out;
         }
-        h1 {
+
+        #quizContent h1 {
             text-align: center;
-            color: #333333;
             margin-bottom: 30px;
-            font-size: 2.5em;
-            animation: slideDown 1s ease-out;
+            color: #333333;
         }
+
         .question {
-            margin-bottom: 25px;
+            background: #ffffff;
             padding: 20px;
             border-left: 5px solid #28a745;
-            background: #f9f9f9;
             border-radius: 5px;
-            animation: fadeInUp 0.5s ease-in-out;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .flag-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.5em;
-            transition: color 0.3s;
+
+        .question:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
-        .flag-btn.marked {
-            color: #ffc107;
-        }
+
         .question h3 {
             margin-bottom: 15px;
-            color: #555555;
+            color: #333333;
         }
+
         .options label {
             display: block;
             margin-bottom: 10px;
             cursor: pointer;
-            transition: background 0.3s, border-left 0.3s;
+            transition: background 0.3s ease, border 0.3s ease;
             padding: 10px;
             border-radius: 5px;
-            background: #ffffff;
-            position: relative;
-            border-left: 5px solid transparent;
+            border: 2px solid transparent;
         }
+
         .options label:hover {
-            background: #e6ffe6;
+            background: #f1f1f1;
         }
-        .options input {
+
+        .options input[type="radio"],
+        .options input[type="checkbox"] {
             margin-right: 10px;
+            transform: scale(1.2);
+            cursor: pointer;
         }
-        #submitBtn {
-            display: block;
+
+        .options input[type="text"],
+        .options textarea {
             width: 100%;
-            padding: 15px;
+            padding: 10px;
+            border: 2px solid #cccccc;
+            border-radius: 5px;
+            font-size: 16px;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        .options input[type="text"]:focus,
+        .options textarea:focus {
+            border-color: #28a745;
+            outline: none;
+        }
+
+        /* Botón de Enviar */
+        #submitBtn {
+            padding: 15px 20px;
             background: #007bff;
-            color: #fff;
+            color: #ffffff;
             border: none;
+            border-radius: 5px;
             font-size: 18px;
             cursor: pointer;
-            border-radius: 5px;
-            transition: background 0.3s, transform 0.3s;
-            margin-top: 20px;
+            transition: background 0.3s ease;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            display: block;
         }
+
         #submitBtn:hover {
-            background: #0056b3;
-            transform: scale(1.05);
+            background: #0069d9;
         }
+
+        /* Resultado */
         #result {
-            display: none;
-            text-align: center;
-            animation: fadeIn 1s ease-in-out;
+            background: rgba(255, 255, 255, 0.95);
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.5s ease-in-out;
         }
+
         #result h2 {
-            color: #333333;
             margin-bottom: 20px;
+            color: #333333;
         }
-        #result p {
-            font-size: 20px;
-            color: #555555;
+
+        #score {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #333333;
         }
-        #review {
-            margin-top: 30px;
-            text-align: left;
-        }
+
         .review-question {
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 2px solid #dedede;
+            background: #ffffff;
+            padding: 20px;
+            border-left: 5px solid #28a745;
             border-radius: 5px;
-            background: #f1f1f1;
-            transition: background 0.3s, border-color 0.3s;
+            margin-bottom: 20px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .review-question.correct {
-            border-color: #28a745;
-            background: #e6ffe6;
+
+        .review-question:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
-        .review-question.incorrect {
-            border-color: #dc3545;
-            background: #ffe6e6;
-        }
+
         .review-question h4 {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             color: #333333;
         }
+
+        .review-question pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 10px;
+        }
+
         .review-question p {
-            margin: 5px 0;
+            margin-bottom: 10px;
             color: #555555;
         }
-        .explanation {
-            margin-top: 10px;
-            padding: 10px;
+
+        .review-question strong {
+            color: #333333;
+        }
+
+        /* Explicación */
+        .explicacion {
             background: #fff3cd;
+            padding: 15px;
             border-left: 5px solid #ffeeba;
-            border-radius: 3px;
+            border-radius: 5px;
             color: #856404;
         }
-        /* Botón de Reintentar */
-        #result button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background: #28a745;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        #result button:hover {
-            background: #218838;
-        }
+
         /* Barra de Progreso */
         #progressBar {
             position: fixed;
@@ -279,418 +367,784 @@
             height: 5px;
             background: #28a745;
             width: 0%;
-            transition: width 0.3s;
+            transition: width 0.3s ease;
             z-index: 999;
         }
+
         /* Temporizador */
         #timer {
             position: fixed;
             top: 20px;
             right: 20px;
-            font-size: 1.2em;
+            background: #ffffff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-size: 18px;
             color: #333333;
-            z-index: 999;
+            animation: fadeIn 0.5s ease-in-out;
         }
 
-        /* Animaciones */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        /* Botón de Reintentar */
+        #result button {
+            padding: 12px 25px;
+            background: #28a745;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 20px;
         }
-        @keyframes slideDown {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+
+        #result button:hover {
+            background: #218838;
         }
-        @keyframes fadeInUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+
+        .hidden {
+            display: none !important;
         }
-        @keyframes fadeInLeft {
-            from { transform: translateX(-20px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        /* Responsive */
+
+        /* Media Queries para Responsividad */
         @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
             #navPanel {
-                position: fixed;
                 width: 100%;
-                height: auto;
-                top: 0;
-                left: 0;
+                position: relative;
                 border-right: none;
-                border-bottom: 2px solid #dedede;
-                display: flex;
-                overflow-x: auto;
+                border-bottom: 1px solid #dddddd;
             }
-            #navPanel h3 {
-                display: none;
-            }
-            .nav-buttons {
-                flex-wrap: nowrap;
-            }
-            .nav-button {
-                flex: 0 0 auto;
-            }
-            #quizContent {
-                margin-left: 0;
-                width: 100%;
-                padding-top: 100px;
-            }
+
             #progressBar {
                 left: 0;
+            }
+
+            #timer {
+                top: 10px;
+                right: 10px;
+                font-size: 16px;
+                padding: 8px 16px;
+            }
+
+            #configForm {
+                padding: 20px;
+            }
+
+            .nav-buttons {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            #navPanel {
+                display: none;
+            }
+
+            #progressBar {
+                left: 0;
+            }
+
+            #quizContent {
+                padding: 20px;
+            }
+
+            #configForm {
+                padding: 15px;
+            }
+
+            .nav-buttons {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
     </style>
 </head>
 <body>
 
-<!-- Configuración Inicial -->
-<div id="configPanel">
-    <div class="config-box">
-        <h2>Configuración del Cuestionario</h2>
-        <form id="configForm">
-            <label>
-                <input type="radio" name="mode" value="showAnswer" required>
-                Mostrar respuesta y explicación al responder
-            </label>
-            <label>
-                <input type="radio" name="mode" value="timed">
-                Cuestionario temporizado (10 minutos)
-            </label>
+    <!-- Configuración Inicial -->
+    <div id="configPanel" class="animate-fadeIn">
+        <form id="configForm" class="animate-slideDown">
+            <h2>Configuración del Cuestionario</h2>
+            <div class="form-group">
+                <label>Modo de Cuestionario:</label>
+                <label>
+                    <input type="radio" name="mode" value="showAnswer" required>
+                    Mostrar respuesta y explicación al responder
+                </label>
+                <label>
+                    <input type="radio" name="mode" value="timed">
+                    Cuestionario temporizado (20s por pregunta)
+                </label>
+            </div>
+            <div class="form-group">
+                <label>Número de Preguntas:</label>
+                <select id="numQuestions">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Tipos de Preguntas:</label>
+                <label>
+                    <input type="checkbox" name="types" value="multiple-choice" checked>
+                    Opción Múltiple
+                </label>
+                <label>
+                    <input type="checkbox" name="types" value="fill-in-the-blank" checked>
+                    Rellenar Espacios
+                </label>
+                <label>
+                    <input type="checkbox" name="types" value="code" checked>
+                    Código
+                </label>
+            </div>
+            <div class="form-group">
+                <label>Importar Preguntas desde JSON:</label>
+                <input type="file" id="importBtn" accept=".json">
+            </div>
+            <div class="form-group">
+                <p id="totalTime">Tiempo total: 200 segundos</p>
+            </div>
             <button type="button" id="startQuizBtn">Comenzar Cuestionario</button>
         </form>
     </div>
-</div>
 
-<div class="container" style="display: none;">
-    <!-- Panel de Navegación -->
-    <div id="navPanel">
-        <h3>Preguntas</h3>
-        <div class="nav-buttons" id="navButtons">
-            <!-- Botones de navegación generados dinámicamente -->
-        </div>
-    </div>
-
-    <!-- Contenido del Cuestionario -->
-    <div id="quizContent">
-        <h1>Cuestionario de Kotlin</h1>
-        <form id="quizForm">
-            <!-- Las preguntas se cargarán aquí dinámicamente -->
-        </form>
-        <button id="submitBtn">Enviar Respuestas</button>
-        <div id="result">
-            <h2>Resultado</h2>
-            <p id="score"></p>
-            <div id="review">
+    <!-- Contenedor Principal -->
+    <div class="container animate-fadeIn" style="display: none;">
+        <!-- Panel de Navegación -->
+        <div id="navPanel" class="animate-slideInLeft">
+            <h3>Preguntas</h3>
+            <div class="nav-buttons" id="navButtons">
+                <!-- Botones de navegación generados dinámicamente -->
             </div>
-            <button onclick="location.reload()">Reintentar</button>
+        </div>
+
+        <!-- Contenido del Cuestionario -->
+        <div id="quizContent" class="animate-slideInRight">
+            <h1>Cuestionario de Kotlin</h1>
+            <form id="quizForm">
+                <!-- Las preguntas se cargarán aquí dinámicamente -->
+            </form>
+            <button id="submitBtn">Enviar Respuestas</button>
+            <div id="result" class="hidden">
+                <h2>Resultado</h2>
+                <p id="score"></p>
+                <div id="review"></div>
+                <button onclick="location.reload()">Reintentar</button>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Barra de Progreso -->
-<div id="progressBar"></div>
+    <!-- Barra de Progreso -->
+    <div id="progressBar"></div>
 
-<!-- Temporizador -->
-<div id="timer"></div>
+    <!-- Temporizador -->
+    <div id="timer"></div>
 
-<script>
-    const QUESTIONS_URL = 'questions.json'; // Ruta al archivo JSON con las preguntas
-    let questions = [];
-    let selectedQuestions = [];
-    let userAnswers = [];
-    let mode = 'showAnswer'; // Modo seleccionado
-    let markedQuestions = new Set();
-    let timerInterval;
-    let timeLeft = 600; // 10 minutos en segundos
+    <script>
+        const QUESTIONS_URL = 'questions.json'; // Ruta al archivo JSON con las preguntas
+        const secondsPerQuestion = 20;
+        let questions = [];
+        let selectedQuestions = [];
+        let userAnswers = [];
+        let mode = 'showAnswer'; // Modo seleccionado
+        let markedQuestions = new Set();
+        let timerInterval;
+        let timeLeft = 0; // Tiempo total en segundos
 
-    // Referencias a elementos del DOM
-    const configPanel = document.getElementById('configPanel');
-    const startQuizBtn = document.getElementById('startQuizBtn');
-    const container = document.querySelector('.container');
-    const quizForm = document.getElementById('quizForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const resultDiv = document.getElementById('result');
-    const scoreP = document.getElementById('score');
-    const reviewDiv = document.getElementById('review');
-    const navButtonsDiv = document.getElementById('navButtons');
-    const progressBar = document.getElementById('progressBar');
-    const timerDiv = document.getElementById('timer');
+        // Referencias a elementos del DOM
+        const configPanel = document.getElementById('configPanel');
+        const startQuizBtn = document.getElementById('startQuizBtn');
+        const importBtn = document.getElementById('importBtn');
+        const container = document.querySelector('.container');
+        const quizForm = document.getElementById('quizForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const resultDiv = document.getElementById('result');
+        const scoreP = document.getElementById('score');
+        const reviewDiv = document.getElementById('review');
+        const navButtonsDiv = document.getElementById('navButtons');
+        const progressBar = document.getElementById('progressBar');
+        const timerDiv = document.getElementById('timer');
+        const totalTimeP = document.getElementById('totalTime');
 
-    // Función para escapar caracteres HTML
-    function escapeHTML(str) {
-        return str.replace(/&/g, "&amp;")
-                  .replace(/</g, "&lt;")
-                  .replace(/>/g, "&gt;")
-                  .replace(/"/g, "&quot;")
-                  .replace(/'/g, "&#039;");
-    }
+        // Función para escapar caracteres HTML
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;")
+                      .replace(/</g, "&lt;")
+                      .replace(/>/g, "&gt;")
+                      .replace(/"/g, "&quot;")
+                      .replace(/'/g, "&#039;");
+        }
 
-    // Evento para iniciar el cuestionario
-    startQuizBtn.addEventListener('click', () => {
-        const selectedMode = document.querySelector('input[name="mode"]:checked');
-        if (selectedMode) {
-            mode = selectedMode.value;
-            configPanel.style.display = 'none';
-            container.style.display = 'flex';
-            fetchQuestions();
-            if (mode === 'timed') {
-                startTimer();
+        // Actualizar el tiempo total en la configuración
+        function updateTotalTime() {
+            const numQuestions = parseInt(document.getElementById('numQuestions').value, 10);
+            const totalTime = numQuestions * secondsPerQuestion;
+            totalTimeP.textContent = `Tiempo total: ${totalTime} segundos`;
+        }
+
+        // Evento para actualizar el tiempo total cuando cambia el número de preguntas
+        document.getElementById('numQuestions').addEventListener('change', updateTotalTime);
+
+        // Inicializar el tiempo total al cargar la página
+        updateTotalTime();
+
+        // Evento para iniciar el cuestionario
+        startQuizBtn.addEventListener('click', () => {
+            const selectedMode = document.querySelector('input[name="mode"]:checked');
+            if (selectedMode) {
+                mode = selectedMode.value;
+
+                // Obtener el número de preguntas seleccionadas
+                const numQuestions = parseInt(document.getElementById('numQuestions').value, 10);
+
+                // Obtener los tipos de preguntas seleccionadas
+                const typesSelected = Array.from(document.querySelectorAll('input[name="types"]:checked')).map(input => input.value);
+                if (typesSelected.length === 0) {
+                    alert('Por favor, selecciona al menos un tipo de pregunta.');
+                    return;
+                }
+
+                configPanel.style.display = 'none';
+                container.style.display = 'flex';
+                fetchQuestions(numQuestions, typesSelected);
+                if (mode === 'timed') {
+                    startTimer(numQuestions);
+                }
+            }
+        });
+
+        // Evento para importar preguntas desde un archivo JSON
+        importBtn.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file && file.type === 'application/json') {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const importedQuestions = JSON.parse(e.target.result);
+                        questions = importedQuestions;
+                        const numQuestions = parseInt(document.getElementById('numQuestions').value, 10);
+                        const typesSelected = Array.from(document.querySelectorAll('input[name="types"]:checked')).map(input => input.value);
+                        selectedQuestions = filterQuestions(questions, numQuestions, typesSelected);
+                        displayQuestions();
+                        generateNavButtons();
+                        updateProgress();
+                        if (mode === 'timed') {
+                            startTimer(numQuestions);
+                        }
+                    } catch (error) {
+                        alert('Error al importar el archivo JSON: ' + error.message);
+                    }
+                };
+                reader.readAsText(file);
+            } else {
+                alert('Por favor, selecciona un archivo JSON válido.');
+            }
+        });
+
+        // Iniciar el temporizador total
+        function startTimer(numQuestions) {
+            timeLeft = numQuestions * secondsPerQuestion;
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert('¡Tiempo agotado! Se enviarán tus respuestas automáticamente.');
+                    submitQuiz();
+                }
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        // Actualizar la visualización del temporizador
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDiv.textContent = `Tiempo Restante: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }
+
+        // Cargar las preguntas desde el JSON
+        function fetchQuestions(numQuestions = 10, typesSelected = ['multiple-choice', 'fill-in-the-blank', 'code']) {
+            fetch(QUESTIONS_URL)
+                .then(response => response.json())
+                .then(data => {
+                    questions = data;
+                    selectedQuestions = filterQuestions(questions, numQuestions, typesSelected);
+                    displayQuestions();
+                    generateNavButtons();
+                    updateProgress();
+                })
+                .catch(error => console.error('Error al cargar las preguntas:', error));
+        }
+
+        // Filtrar preguntas según el número y tipos seleccionados
+        function filterQuestions(allQuestions, num, types) {
+            const filtered = allQuestions.filter(q => types.includes(q.type));
+            const shuffled = filtered.sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, num);
+        }
+
+        // Mostrar las preguntas en el formulario
+        function displayQuestions() {
+            quizForm.innerHTML = ''; // Limpiar preguntas existentes
+            selectedQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.classList.add('question');
+                questionDiv.id = `question${index}`;
+
+                // Botón para marcar la pregunta
+                const flagBtn = document.createElement('button');
+                flagBtn.classList.add('flag-btn');
+                flagBtn.innerHTML = '📌';
+                flagBtn.title = 'Marcar para revisar';
+                flagBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    toggleMarkQuestion(index);
+                });
+                questionDiv.appendChild(flagBtn);
+
+                // Crear el título de la pregunta
+                const questionTitle = document.createElement('h3');
+                questionTitle.textContent = `${index + 1}. ${q.question}`;
+                questionDiv.appendChild(questionTitle);
+
+                // Crear el contenedor de opciones según el tipo de pregunta
+                const optionsDiv = document.createElement('div');
+                optionsDiv.classList.add('options');
+
+                if (q.type === 'multiple-choice') {
+                    // Crear cada opción de respuesta
+                    q.options.forEach((option, i) => {
+                        const label = document.createElement('label');
+
+                        const input = document.createElement('input');
+                        input.type = 'radio';
+                        input.name = `question${index}`;
+                        input.value = i;
+                        input.addEventListener('change', () => {
+                            userAnswers[index] = i;
+                            updateProgress();
+                            updateNavButton(index);
+                            if (mode === 'showAnswer') {
+                                displayCorrectAnswer(index);
+                                disableOptions(index);
+                                clearInterval(timerInterval); // Detener el temporizador total
+                            }
+                        });
+
+                        const optionText = document.createElement('span');
+                        optionText.innerHTML = escapeHTML(option);
+
+                        label.appendChild(input);
+                        label.appendChild(optionText);
+                        optionsDiv.appendChild(label);
+                    });
+                } else if (q.type === 'fill-in-the-blank') {
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.name = `question${index}`;
+                    input.placeholder = 'Escribe tu respuesta aquí...';
+                    input.addEventListener('input', () => {
+                        userAnswers[index] = input.value.trim();
+                        updateProgress();
+                        updateNavButton(index);
+                        if (mode === 'showAnswer') {
+                            displayCorrectAnswerFill(index);
+                            disableInput(index);
+                            clearInterval(timerInterval); // Detener el temporizador total
+                        }
+                    });
+                    optionsDiv.appendChild(input);
+                } else if (q.type === 'code') {
+                        // Mostrar el código de la pregunta, si existe
+                        if (q.code) {
+                            const pre = document.createElement('pre');
+                            pre.classList.add('code-block');
+                            const code = document.createElement('code');
+                            code.classList.add('language-kotlin');
+                            code.textContent = q.code;
+                            pre.appendChild(code);
+                            optionsDiv.appendChild(pre);
+                            hljs.highlightBlock(code);
+                        }
+
+                        if (q.options && q.options.length > 0) {
+                            // Si hay opciones, mostrar como opción múltiple
+                            q.options.forEach((option, i) => {
+                                const label = document.createElement('label');
+
+                                const input = document.createElement('input');
+                                input.type = 'radio';
+                                input.name = `question${index}`;
+                                input.value = i;
+                                input.addEventListener('change', () => {
+                                    userAnswers[index] = i;
+                                    updateProgress();
+                                    updateNavButton(index);
+                                    if (mode === 'showAnswer') {
+                                        displayCorrectAnswerCode(index);
+                                        disableOptions(index);
+                                        clearInterval(timerInterval); // Detener el temporizador total
+                                    }
+                                });
+
+                                const optionText = document.createElement('span');
+                                optionText.innerHTML = escapeHTML(option);
+
+                                label.appendChild(input);
+                                label.appendChild(optionText);
+                                optionsDiv.appendChild(label);
+                            });
+                        } else {
+                            // Si no hay opciones, mostrar textarea para ingresar código
+                            const textarea = document.createElement('textarea');
+                            textarea.name = `question${index}`;
+                            textarea.rows = 5;
+                            textarea.placeholder = 'Escribe tu respuesta aquí...';
+                            textarea.addEventListener('input', () => {
+                                userAnswers[index] = textarea.value.trim();
+                                updateProgress();
+                                updateNavButton(index);
+                                if (mode === 'showAnswer') {
+                                    displayCorrectAnswerCode(index);
+                                    disableTextarea(index);
+                                    clearInterval(timerInterval); // Detener el temporizador total
+                                }
+                            });
+                            optionsDiv.appendChild(textarea);
+                        }
+                    }
+
+                questionDiv.appendChild(optionsDiv);
+                quizForm.appendChild(questionDiv);
+            });
+
+            // Resaltar el código
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
+        }
+
+        // Generar botones de navegación
+        function generateNavButtons() {
+            navButtonsDiv.innerHTML = ''; // Limpiar botones existentes
+            selectedQuestions.forEach((q, index) => {
+                const btn = document.createElement('button');
+                btn.classList.add('nav-button');
+                btn.textContent = index + 1;
+                btn.addEventListener('click', () => {
+                    document.getElementById(`question${index}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+                navButtonsDiv.appendChild(btn);
+            });
+        }
+
+        // Alternar marca de una pregunta
+        function toggleMarkQuestion(index) {
+            const btn = navButtonsDiv.children[index];
+            const questionDiv = document.getElementById(`question${index}`);
+            const flagBtn = questionDiv.querySelector('.flag-btn');
+            if (markedQuestions.has(index)) {
+                markedQuestions.delete(index);
+                btn.classList.remove('active');
+                flagBtn.classList.remove('active');
+            } else {
+                markedQuestions.add(index);
+                btn.classList.add('active');
+                flagBtn.classList.add('active');
             }
         }
-    });
 
-    // Iniciar el temporizador
-    function startTimer() {
-        updateTimerDisplay();
-        timerInterval = setInterval(() => {
-            timeLeft--;
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                alert('¡Tiempo agotado! Se enviarán tus respuestas automáticamente.');
-                submitQuiz();
-            }
-            updateTimerDisplay();
-        }, 1000);
-    }
+        // Actualizar progreso
+        function updateProgress() {
+            const answered = userAnswers.filter(ans => ans !== undefined && ans !== null && ans !== '').length;
+            const total = selectedQuestions.length;
+            const percent = (answered / total) * 100;
+            progressBar.style.width = `${percent}%`;
+        }
 
-    // Actualizar la visualización del temporizador
-    function updateTimerDisplay() {
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        timerDiv.textContent = `Tiempo Restante: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-    }
+        // Actualizar botón de navegación
+        function updateNavButton(index) {
+            const btn = navButtonsDiv.children[index];
+            btn.classList.add('active');
+            setTimeout(() => {
+                btn.classList.remove('active');
+            }, 300);
+        }
 
-    // Cargar las preguntas desde el JSON
-    function fetchQuestions() {
-        fetch(QUESTIONS_URL)
-            .then(response => response.json())
-            .then(data => {
-                questions = data;
-                selectRandomQuestions();
-                displayQuestions();
-                generateNavButtons();
-            })
-            .catch(error => console.error('Error al cargar las preguntas:', error));
-    }
-
-    // Seleccionar 10 preguntas aleatorias
-    function selectRandomQuestions() {
-        const shuffled = questions.sort(() => 0.5 - Math.random());
-        selectedQuestions = shuffled.slice(0, 10);
-    }
-
-    // Mostrar las preguntas en el formulario
-    function displayQuestions() {
-        selectedQuestions.forEach((q, index) => {
-            const questionDiv = document.createElement('div');
-            questionDiv.classList.add('question');
-            questionDiv.id = `question${index}`;
-
-            // Botón para marcar la pregunta
-            const flagBtn = document.createElement('button');
-            flagBtn.classList.add('flag-btn');
-            flagBtn.innerHTML = '📌';
-            flagBtn.title = 'Marcar para revisar';
-            flagBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                toggleMarkQuestion(index);
+        // Mostrar respuesta correcta y explicación para preguntas de opción múltiple
+        function displayCorrectAnswer(index) {
+            const question = selectedQuestions[index];
+            const correctOption = question.answer;
+            const questionDiv = document.getElementById(`question${index}`);
+            const options = questionDiv.querySelectorAll('.options label');
+            options.forEach((label, i) => {
+                if (i === correctOption) {
+                    label.style.borderLeft = '5px solid #28a745';
+                    label.style.backgroundColor = '#d4edda';
+                } else if (i === userAnswers[index]) {
+                    label.style.borderLeft = '5px solid #dc3545';
+                    label.style.backgroundColor = '#f8d7da';
+                }
             });
-            questionDiv.appendChild(flagBtn);
+            // Añadir explicación
+            if (question.explanation) {
+                const explanationDiv = document.createElement('div');
+                explanationDiv.classList.add('explicacion');
+                explanationDiv.innerHTML = `<strong>Explicación:</strong> ${escapeHTML(question.explanation)}`;
+                questionDiv.appendChild(explanationDiv);
+            }
+        }
 
-            // Crear el título de la pregunta
-            const questionTitle = document.createElement('h3');
-            questionTitle.textContent = `${index + 1}. ${q.question}`;
-            questionDiv.appendChild(questionTitle);
+        // Mostrar respuesta correcta y explicación para preguntas de rellenar espacios
+        function displayCorrectAnswerFill(index) {
+            const question = selectedQuestions[index];
+            const correctAnswer = question.answer.toLowerCase();
+            const userAnswer = userAnswers[index] ? userAnswers[index].toLowerCase() : '';
+            const questionDiv = document.getElementById(`question${index}`);
+            const input = questionDiv.querySelector('.options input');
+            if (userAnswer === correctAnswer) {
+                input.style.border = '2px solid #28a745';
+                input.style.backgroundColor = '#d4edda';
+            } else {
+                input.style.border = '2px solid #dc3545';
+                input.style.backgroundColor = '#f8d7da';
+            }
+            // Añadir explicación
+            if (question.explanation) {
+                const explanationDiv = document.createElement('div');
+                explanationDiv.classList.add('explicacion');
+                explanationDiv.innerHTML = `<strong>Explicación:</strong> ${escapeHTML(question.explanation)}`;
+                questionDiv.appendChild(explanationDiv);
+            }
+        }
 
-            // Crear el contenedor de opciones
-            const optionsDiv = document.createElement('div');
-            optionsDiv.classList.add('options');
+        // Mostrar respuesta correcta y explicación para preguntas de código
+        function displayCorrectAnswerCode(index) {
+            const question = selectedQuestions[index];
+            const questionDiv = document.getElementById(`question${index}`);
+            const optionsDiv = questionDiv.querySelector('.options');
 
-            // Crear cada opción
-            q.options.forEach((option, i) => {
-                const label = document.createElement('label');
-
-                const input = document.createElement('input');
-                input.type = 'radio';
-                input.name = `question${index}`;
-                input.value = i;
-
-                // Manejar cambios en la selección
-                input.addEventListener('change', () => {
-                    userAnswers[index] = i;
-                    updateProgress();
-                    updateNavButton(index);
-                    if (mode === 'showAnswer') {
-                        displayCorrectAnswer(index);
-                        disableOptions(index);
+            if (question.options && question.options.length > 0) {
+                // Pregunta de código con opciones
+                const correctOption = question.answer;
+                const options = optionsDiv.querySelectorAll('label');
+                options.forEach((label, i) => {
+                    if (i === correctOption) {
+                        label.style.borderLeft = '5px solid #28a745';
+                        label.style.backgroundColor = '#d4edda';
+                    } else if (i === userAnswers[index]) {
+                        label.style.borderLeft = '5px solid #dc3545';
+                        label.style.backgroundColor = '#f8d7da';
                     }
                 });
-
-                label.appendChild(input);
-
-                // Escapar el texto de la opción para evitar interpretación HTML
-                const optionText = document.createElement('span');
-                optionText.innerHTML = escapeHTML(option);
-                label.appendChild(optionText);
-
-                optionsDiv.appendChild(label);
-            });
-
-            questionDiv.appendChild(optionsDiv);
-            quizForm.appendChild(questionDiv);
-        });
-    }
-
-    // Generar botones de navegación
-    function generateNavButtons() {
-        selectedQuestions.forEach((q, index) => {
-            const btn = document.createElement('div');
-            btn.classList.add('nav-button');
-            btn.textContent = index + 1;
-            btn.addEventListener('click', () => {
-                document.getElementById(`question${index}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-            navButtonsDiv.appendChild(btn);
-        });
-    }
-
-    // Alternar marca de una pregunta
-    function toggleMarkQuestion(index) {
-        const btn = navButtonsDiv.children[index];
-        const questionDiv = document.getElementById(`question${index}`);
-        const flagBtn = questionDiv.querySelector('.flag-btn');
-        if (markedQuestions.has(index)) {
-            markedQuestions.delete(index);
-            btn.classList.remove('marked');
-            flagBtn.classList.remove('marked');
-        } else {
-            markedQuestions.add(index);
-            btn.classList.add('marked');
-            flagBtn.classList.add('marked');
-        }
-    }
-
-    // Actualizar progreso
-    function updateProgress() {
-        const answered = userAnswers.filter(ans => ans !== undefined && ans !== null).length;
-        const total = selectedQuestions.length;
-        const percent = (answered / total) * 100;
-        progressBar.style.width = `${percent}%`;
-    }
-
-    // Actualizar botón de navegación
-    function updateNavButton(index) {
-        const btn = navButtonsDiv.children[index];
-        btn.classList.add('active');
-        setTimeout(() => {
-            btn.classList.remove('active');
-        }, 300);
-    }
-
-    // Mostrar respuesta correcta y explicación
-    function displayCorrectAnswer(index) {
-        const question = selectedQuestions[index];
-        const correctOption = question.answer;
-        const questionDiv = document.getElementById(`question${index}`);
-        const options = questionDiv.querySelectorAll('.options label');
-        options.forEach((label, i) => {
-            if (i === correctOption) {
-                label.style.borderLeft = '5px solid #28a745';
-                label.style.background = '#d4edda';
             } else {
-                label.style.borderLeft = '5px solid #dc3545';
-                label.style.background = '#f8d7da';
+                // Pregunta de código con entrada de texto
+                const correctAnswer = question.answer.trim();
+                const userAnswer = userAnswers[index] ? userAnswers[index].trim() : '';
+                const textarea = optionsDiv.querySelector('textarea');
+                if (userAnswer === correctAnswer) {
+                    textarea.style.border = '2px solid #28a745';
+                    textarea.style.backgroundColor = '#d4edda';
+                } else {
+                    textarea.style.border = '2px solid #dc3545';
+                    textarea.style.backgroundColor = '#f8d7da';
+                }
             }
-        });
-        // Añadir explicación
-        if (question.explanation) {
-            const explanationDiv = document.createElement('div');
-            explanationDiv.classList.add('explanation');
-            explanationDiv.innerHTML = `<strong>Explicación:</strong> ${escapeHTML(question.explanation)}`;
-            questionDiv.appendChild(explanationDiv);
-        }
-    }
 
-    // Deshabilitar opciones después de responder
-    function disableOptions(index) {
-        const questionDiv = document.getElementById(`question${index}`);
-        const inputs = questionDiv.querySelectorAll('.options input');
-        inputs.forEach(input => {
-            input.disabled = true;
-        });
-    }
-
-    // Manejar el envío del formulario
-    submitBtn.addEventListener('click', () => {
-        // Validar que todas las preguntas hayan sido respondidas
-        const unanswered = userAnswers.findIndex(ans => ans === undefined || ans === null);
-        if (unanswered !== -1) {
-            if (!confirm(`No has respondido todas las preguntas. ¿Deseas continuar de todos modos?`)) {
-                document.getElementById(`question${unanswered}`).scrollIntoView({ behavior: 'smooth' });
-                return;
-            }
-        }
-        submitQuiz();
-    });
-
-    // Función para enviar el cuestionario
-    function submitQuiz() {
-        if (mode === 'timed') {
-            clearInterval(timerInterval);
-        }
-
-        let score = 0;
-        selectedQuestions.forEach((q, index) => {
-            const answer = userAnswers[index];
-            if (answer === q.answer) {
-                score++;
-            }
-        });
-
-        // Mostrar el resultado
-        quizForm.style.display = 'none';
-        submitBtn.style.display = 'none';
-        navButtonsDiv.style.display = 'none';
-        resultDiv.style.display = 'block';
-        scoreP.innerText = `Has acertado ${score} de ${selectedQuestions.length} preguntas.`;
-
-        // Mostrar la revisión detallada
-        selectedQuestions.forEach((q, index) => {
-            const userAnswer = userAnswers[index];
-            const isCorrect = userAnswer === q.answer;
-            const reviewQuestion = document.createElement('div');
-            reviewQuestion.classList.add('review-question');
-            reviewQuestion.classList.add(isCorrect ? 'correct' : 'incorrect');
-
-            // Crear el título de la pregunta
-            const reviewTitle = document.createElement('h4');
-            reviewTitle.textContent = `${index + 1}. ${q.question}`;
-            reviewQuestion.appendChild(reviewTitle);
-
-            // Crear la respuesta del usuario
-            const userResponse = document.createElement('p');
-            userResponse.innerHTML = `<strong>Tu respuesta:</strong> ${userAnswer !== null && userAnswer !== undefined ? escapeHTML(q.options[userAnswer]) : 'No respondida'}`;
-            reviewQuestion.appendChild(userResponse);
-
-            // Crear la respuesta correcta
-            const correctResponse = document.createElement('p');
-            correctResponse.innerHTML = `<strong>Respuesta correcta:</strong> ${escapeHTML(q.options[q.answer])}`;
-            reviewQuestion.appendChild(correctResponse);
-
-            // Crear la explicación
-            if (q.explanation) {
+            // Añadir explicación
+            if (question.explanation) {
                 const explanationDiv = document.createElement('div');
-                explanationDiv.classList.add('explanation');
-                explanationDiv.innerHTML = `<strong>Explicación:</strong> ${escapeHTML(q.explanation)}`;
-                reviewQuestion.appendChild(explanationDiv);
+                explanationDiv.classList.add('explicacion');
+                explanationDiv.innerHTML = `<strong>Explicación:</strong> ${escapeHTML(question.explanation)}`;
+                questionDiv.appendChild(explanationDiv);
             }
+        }
 
-            reviewDiv.appendChild(reviewQuestion);
+        // Deshabilitar opciones después de responder
+        function disableOptions(index) {
+            const questionDiv = document.getElementById(`question${index}`);
+            const inputs = questionDiv.querySelectorAll('.options input');
+            inputs.forEach(input => {
+                input.disabled = true;
+            });
+        }
+
+        function disableInput(index) {
+            const questionDiv = document.getElementById(`question${index}`);
+            const input = questionDiv.querySelector('.options input');
+            input.disabled = true;
+        }
+
+        function disableTextarea(index) {
+            const questionDiv = document.getElementById(`question${index}`);
+            const textarea = questionDiv.querySelector('.options textarea');
+            textarea.disabled = true;
+        }
+
+        // Manejar el envío del formulario
+        submitBtn.addEventListener('click', () => {
+            // Validar que todas las preguntas hayan sido respondidas
+            const unanswered = userAnswers.findIndex(ans => ans === undefined || ans === null || ans === '');
+            if (unanswered !== -1) {
+                if (!confirm(`No has respondido todas las preguntas. ¿Deseas continuar de todos modos?`)) {
+                    document.getElementById(`question${unanswered}`).scrollIntoView({ behavior: 'smooth' });
+                    return;
+                }
+            }
+            submitQuiz();
         });
-    }
 
-</script>
+        // Función para enviar el cuestionario
+        function submitQuiz() {
+            clearInterval(timerInterval);
+
+            let score = 0;
+            selectedQuestions.forEach((q, index) => {
+                const answer = userAnswers[index];
+                if (q.type === 'multiple-choice') {
+                    if (answer === q.answer) {
+                        score++;
+                    }
+                } else if (q.type === 'fill-in-the-blank') {
+                    if (answer && answer.toLowerCase() === q.answer.toLowerCase()) {
+                        score++;
+                    }
+                } else if (q.type === 'code') {
+                    if (q.options && q.options.length > 0) {
+                        // Pregunta de código con opciones
+                        if (answer === q.answer) {
+                            score++;
+                        }
+                    } else {
+                        // Pregunta de código con entrada de texto
+                        if (answer && answer.trim() === q.answer.trim()) {
+                            score++;
+                        }
+                    }
+                }
+            });
+
+            // Mostrar el resultado
+            quizForm.style.display = 'none';
+            submitBtn.style.display = 'none';
+            navButtonsDiv.style.display = 'none';
+            resultDiv.classList.remove('hidden');
+            scoreP.textContent = `Has acertado ${score} de ${selectedQuestions.length} preguntas.`;
+
+            // Limpiar el contenido anterior de reviewDiv
+            reviewDiv.innerHTML = '';
+
+            // Mostrar la revisión detallada
+            selectedQuestions.forEach((q, index) => {
+                const userAnswer = userAnswers[index];
+                const isCorrect = (
+                    (q.type === 'multiple-choice' && userAnswer === q.answer) ||
+                    (q.type === 'fill-in-the-blank' && userAnswer && userAnswer.toLowerCase() === q.answer.toLowerCase()) ||
+                    (q.type === 'code' && userAnswer && userAnswer.trim() === q.answer.trim())
+                );
+                const reviewQuestion = document.createElement('div');
+                reviewQuestion.classList.add('review-question');
+                reviewQuestion.style.borderLeftColor = isCorrect ? '#28a745' : '#dc3545';
+
+                // Crear el título de la pregunta
+                const reviewTitle = document.createElement('h4');
+                reviewTitle.textContent = `${index + 1}. ${q.question}`;
+                reviewQuestion.appendChild(reviewTitle);
+
+                // Crear la respuesta del usuario
+                const userResponse = document.createElement('p');
+                if (q.type === 'code') {
+                    if (q.options && q.options.length > 0) {
+                        // Pregunta de código con opciones
+                        const userResponse = document.createElement('p');
+                        userResponse.innerHTML = `<strong>Tu respuesta:</strong> ${escapeHTML(q.options[userAnswer] || 'No respondida')}`;
+                        reviewQuestion.appendChild(userResponse);
+
+                        const correctResponse = document.createElement('p');
+                        correctResponse.innerHTML = `<strong>Respuesta correcta:</strong> ${escapeHTML(q.options[q.answer])}`;
+                        reviewQuestion.appendChild(correctResponse);
+                    } else {
+                        // Pregunta de código con entrada de texto
+                        // Código existente para mostrar el código ingresado y la respuesta correcta
+                        const userResponse = document.createElement('p');
+                        userResponse.innerHTML = `<strong>Tu respuesta:</strong>`;
+                        const preUser = document.createElement('pre');
+                        const codeUser = document.createElement('code');
+                        codeUser.classList.add('language-kotlin');
+                        codeUser.textContent = userAnswer || 'No respondida';
+                        preUser.appendChild(codeUser);
+                        userResponse.appendChild(preUser);
+                        reviewQuestion.appendChild(userResponse);
+
+                        const correctResponse = document.createElement('p');
+                        correctResponse.innerHTML = `<strong>Respuesta correcta:</strong>`;
+                        const preCorrect = document.createElement('pre');
+                        const codeCorrect = document.createElement('code');
+                        codeCorrect.classList.add('language-kotlin');
+                        codeCorrect.textContent = q.answer;
+                        preCorrect.appendChild(codeCorrect);
+                        correctResponse.appendChild(preCorrect);
+                        reviewQuestion.appendChild(correctResponse);
+                    }
+                }
+                reviewQuestion.appendChild(userResponse);
+
+                // Crear la respuesta correcta
+                if (q.type === 'code') {
+                    // Mostrar el código de la pregunta
+                    const codeQuestionTitle = document.createElement('p');
+                    codeQuestionTitle.innerHTML = `<strong>Código de la pregunta:</strong>`;
+                    reviewQuestion.appendChild(codeQuestionTitle);
+
+                    const questionCode = document.createElement('pre');
+                    const codeBlock = document.createElement('code');
+                    codeBlock.classList.add('language-kotlin');
+                    codeBlock.textContent = q.code;
+                    questionCode.appendChild(codeBlock);
+                    reviewQuestion.appendChild(questionCode);
+
+                    // Mostrar la respuesta correcta
+                    const correctAnswerTitle = document.createElement('p');
+                    correctAnswerTitle.innerHTML = `<strong>Respuesta correcta:</strong>`;
+                    reviewQuestion.appendChild(correctAnswerTitle);
+
+                    const correctAnswerPre = document.createElement('pre');
+                    const correctCode = document.createElement('code');
+                    correctCode.classList.add('language-kotlin');
+                    correctCode.textContent = q.answer;
+                    correctAnswerPre.appendChild(correctCode);
+                    reviewQuestion.appendChild(correctAnswerPre);
+                } else {
+                    const correctResponse = document.createElement('p');
+                    correctResponse.innerHTML = `<strong>Respuesta correcta:</strong> ${q.type === 'multiple-choice' ? escapeHTML(q.options[q.answer]) : escapeHTML(q.answer)}`;
+                    reviewQuestion.appendChild(correctResponse);
+                }
+
+                // Crear la explicación
+                if (q.explanation) {
+                    const explanationDiv = document.createElement('div');
+                    explanationDiv.classList.add('explicacion');
+                    explanationDiv.innerHTML = `<strong>Explicación:</strong> ${escapeHTML(q.explanation)}`;
+                    reviewQuestion.appendChild(explanationDiv);
+                }
+
+                reviewDiv.appendChild(reviewQuestion);
+            });
+
+            // Resaltar el código en las respuestas
+            document.querySelectorAll('#review pre code').forEach((block) => {
+                hljs.highlightBlock(block);
+            });
+        }
+    </script>
 
 </body>
 </html>
